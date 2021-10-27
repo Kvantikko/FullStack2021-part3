@@ -9,7 +9,7 @@ let initialPassword = process.argv[2]
 
 // jos salasanassa seuraavat merkinnät[     : / ? # [ ] @     ], ongelmia!
 if (initialPassword.includes('@')) {
-    initialPassword = initialPassword.replace(/@/g, '%40');
+  initialPassword = initialPassword.replace(/@/g, '%40')
 }
 
 const password = initialPassword
@@ -28,24 +28,24 @@ const Person = mongoose.model('Person', personSchema)
 
 // jos annetaan vaan salasana eikä salasanan jälkeen ole lisättävää henkilöä, tulostetaan tietokannassa olevat numerot, muuten lisätään uusi henkilö
 if (process.argv.length === 3) {
-    console.log('phonebook:')
-    Person.find({}).then(result => {
-        result.forEach(person => {
-             console.log(person.name, person.number)
-             mongoose.connection.close()
-        })
+  console.log('phonebook:')
+  Person.find({}).then(result => {
+    result.forEach(person => {
+      console.log(person.name, person.number)
+      mongoose.connection.close()
     })
-    setTimeout(function() {process.exit(1)}, 2000)
+  })
+  setTimeout(function() {process.exit(1)}, 2000)
 } else {
-    const person = new Person({
-        name: process.argv[3],
-        number: process.argv[4]
-    })
+  const person = new Person({
+    name: process.argv[3],
+    number: process.argv[4]
+  })
 
-    person.save().then(response => {
-        console.log(`added ${response.name} number ${response.number} to phonebook`)
-        mongoose.connection.close()
-    })
+  person.save().then(response => {
+    console.log(`added ${response.name} number ${response.number} to phonebook`)
+    mongoose.connection.close()
+  })
 }
 
 
